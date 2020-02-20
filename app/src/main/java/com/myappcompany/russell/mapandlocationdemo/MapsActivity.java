@@ -103,6 +103,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             } else {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,0, locationListener);
+                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                mMap.clear();
+                // Add a marker of current location
+                LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
             }
         }
 
